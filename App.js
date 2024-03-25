@@ -1,11 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
 import LoginScreen from './App/Screen/LoginScreen/LoginScreen';
-import {ClerkProvider} from "@clerk/clerk-expo"
+import {ClerkProvider, SignedIn, SignedOut} from "@clerk/clerk-expo"
+import * as WebBrowser from "expo-web-browser";
+import * as SecureStore from "expo-secure-store";
+
+WebBrowser.maybeCompleteAuthSession();
 SplashScreen.preventAutoHideAsync();
+
+const tokenCache = {
+  async getToken(key) {
+    try {
+      return SecureStore.getItemAsync(key);
+    } catch (err) {
+      return null;
+    }
+  },
+  async saveToken(key, value) {
+    try {
+      return SecureStore.setItemAsync(key, value);
+    } catch (err) {
+      return;
+    }
+  },
+};
+
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     'outfit': require('./assets/fonts/outfit/Outfit-Regular.ttf'),
@@ -25,13 +47,20 @@ export default function App() {
   }
 
   return (
-    <ClerkProvider publishableKey={Constants.expoConfig.extra.clerkPublishKey}>
+    <ClerkProvider
+      tokenCache={tokenCache}
+      publishableKey={"pk_test_bGlrZWQtc25haWwtNTEuY2xlcmsuYWNjb3VudHMuZGV2JA"}
+    >
       <View style={styles.container} onLayout={onLayoutRootView}>
-        <LoginScreen />
-      {/* <Text style={{
-        fontFamily: "outfit-bold",
-      }}>
-        Open up App.js to start working on your app!</Text> */}
+      <SafeAreaView style={styles.container}>
+        <SignedIn>
+          <Text>You are Signed in</Text>
+        </SignedIn>
+        <SignedOut>
+          <LoginScreen />
+        </SignedOut>
+      </SafeAreaView>
+
         <StatusBar style="auto" />
       </View>
     </ClerkProvider>
