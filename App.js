@@ -7,10 +7,11 @@ import LoginScreen from './App/Screen/LoginScreen/LoginScreen';
 import {ClerkProvider, SignedIn, SignedOut} from "@clerk/clerk-expo"
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
+import { NavigationContainer } from '@react-navigation/native';
+import TabNavigation from './App/Navigations/TabNavigation';
 
 WebBrowser.maybeCompleteAuthSession();
 SplashScreen.preventAutoHideAsync();
-
 const tokenCache = {
   async getToken(key) {
     try {
@@ -54,7 +55,9 @@ export default function App() {
       <View style={styles.container} onLayout={onLayoutRootView}>
       <SafeAreaView style={styles.container}>
         <SignedIn>
-          <Text>You are Signed in</Text>
+          <NavigationContainer>
+            <TabNavigation />
+          </NavigationContainer>
         </SignedIn>
         <SignedOut>
           <LoginScreen />
