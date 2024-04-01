@@ -11,6 +11,7 @@ import * as SecureStore from "expo-secure-store";
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigation from './App/Navigations/TabNavigation';
 import * as Location from 'expo-location';
+import { UserLocationContext } from './App/Context/UserLocationContext';
 
 WebBrowser.maybeCompleteAuthSession();
 SplashScreen.preventAutoHideAsync();
@@ -53,8 +54,7 @@ export default function App() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      console.log("My location: ", location)
+      setLocation(location.coords);
     })();
   }, []);
 
@@ -80,6 +80,7 @@ export default function App() {
       tokenCache={tokenCache}
       publishableKey={"pk_test_bGlrZWQtc25haWwtNTEuY2xlcmsuYWNjb3VudHMuZGV2JA"}
     >
+      <UserLocationContext.Provider value={{location, setLocation}}>
       <View style={styles.container} onLayout={onLayoutRootView}>
       <SafeAreaView style={styles.container}>
         <SignedIn>
@@ -94,6 +95,7 @@ export default function App() {
 
         <StatusBar style="auto" />
       </View>
+      </UserLocationContext.Provider>
     </ClerkProvider>
   );
 }
