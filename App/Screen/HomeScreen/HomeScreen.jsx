@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet} from 'react-native'
+import { View, StyleSheet} from 'react-native'
 import React from 'react'
 import AppMapView from './AppMapView'
 import Header from './Header'
@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
         position: "absolute",
         zIndex: 1,
         padding: 10,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
         width: "100%",
         paddingHorizontal: 20,
     }
