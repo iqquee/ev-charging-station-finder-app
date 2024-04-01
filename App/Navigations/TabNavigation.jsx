@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from "../Screen/HomeScreen/HomeScreen"
 import FavoriteScreen from "../Screen/FavoriteScreen/FavoriteScreen"
 import ProfileScreen from "../Screen/ProfileScreen/ProfileScreen"
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../Utils/Colors';
 
 const Tab = createBottomTabNavigator();
@@ -38,7 +39,7 @@ export default function TabNavigation() {
                     tabBarLabel: "Profile",
                     tabBarActiveTintColor: Colors.PRIMARY,
                     tabBarIcon: ((color, size) => {
-                        <FontAwesome name="user-circle" size={size} color={color} />
+                        <FontAwesome name="user-circle" size={24} color="black" />
                     })
                 }}
             />
